@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="14px" viewBox="0 0 13 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Web" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Chess-Web-Board" transform="translate(-33.000000, -339.000000)" stroke="#E0E0E0">
+            <g id="Group" transform="translate(33.000000, 339.000000)">
+                <ellipse id="XMLID_1422_" cx="6.5" cy="2.5" rx="6" ry="2"></ellipse>
+                <path d="M12.5,2.5 L12.5,5.5 C12.5,6.6045704 9.8137083,7.5 6.5,7.5 C3.1862917,7.5 0.5,6.6045704 0.5,5.5 L0.5,2.5" id="XMLID_1426_"></path>
+                <path d="M12.5,5.5 L12.5,8.5 C12.5,9.6045704 9.8137083,10.5 6.5,10.5 C3.1862917,10.5 0.5,9.6045704 0.5,8.5 L0.5,5.5" id="XMLID_1426_"></path>
+                <path d="M12.5,8.5 L12.5,11.5 C12.5,12.6045704 9.8137083,13.5 6.5,13.5 C3.1862917,13.5 0.5,12.6045704 0.5,11.5 L0.5,8.5" id="XMLID_1426_"></path>
+            </g>
+        </g>
+    </g>
+</svg>
