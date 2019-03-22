@@ -1,7 +1,7 @@
 import User from 'src/model/User'
 import { UserActionTypes } from '../actions/ActionTypes';
 import { UserAction } from '../actions/Actions';
-//670fe200-906a-43eb-89aa-30ef11f6f8c0
+//100649e5-c8d0-4053-8e84-27db7d853955
 export default (state: User = new User(''), action: UserAction) => {
     switch (action.type) {
         case UserActionTypes.LOGIN_SUCCESS:

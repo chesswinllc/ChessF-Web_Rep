@@ -15,13 +15,13 @@ export default class Button extends React.Component<IButtonProps, any> {
 
         if (loading) {
             return (
-                <span onClick={this.props.onClick} className={'btn ' + (className)}>
+                <span onClick={this.onClick} className={'btn ' + (className || '')}>
                     <Loader width={20} height={20} />
                 </span>)
         }
 
         return (
-            <span onClick={this.onClick} className={'btn ' + (className)}>
+            <span onClick={this.onClick} className={'btn ' + (className || '')}>
                 {icon && <img className='btn__icon' src={icon} />}
                 {text}
             </span>
@@ -30,6 +30,7 @@ export default class Button extends React.Component<IButtonProps, any> {
 
     private onClick = () => {
         if (!this.props.loading && this.props.onClick) {
+            console.log(this.props.loading);
             this.props.onClick();
         }
     }

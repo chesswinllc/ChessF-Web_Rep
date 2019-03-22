@@ -6,24 +6,30 @@ import { IReduxStore } from 'src/redux';
 import User from 'src/model/User';
 import Friends from '../sidebar/Friends';
 import ConnectionIndicator from '../sidebar/ConnectionIndicator';
+import PreGame from 'src/model/PreGame';
+import { openGamePrefsDialog } from '../GamePrefsDialog';
 
 export interface ISidebarProps {
-    user: User
+    user: User,
+    preGame: PreGame
 }
 
 const Sidebar = class extends React.Component<ISidebarProps, any> {
+
+    public state = { active: false }
+
     public render() {
 
 
         const { user } = this.props;
-
+        const { active } = this.state;
 
         return (
-            <div className='sidebar'>
+            <div className={'sidebar ' + (active ? 'sidebar--active' : '')}>
                 <ConnectionIndicator />
-                <img className='sidebar__settings-icon' src={require('../../assets/icons/settings.svg')} />
+                <img onClick={this.switchSiderBar} className='sidebar__menu-switcher-icon' src={require('../../assets/icons/menu-switcher.svg')} />
 
-                <img className='avatar mrl-a mrr-a' src={user.profile_picture} />
+                <img className='avatar avatar--siderbar mrl-a mrr-a' src={user.profile_picture} />
                 <h4 className='sidebar__name'>{user.name}</h4>
                 <div className='divider divider--hor divider--sidebar mrb-0px' />
 
@@ -39,22 +45,47 @@ const Sidebar = class extends React.Component<ISidebarProps, any> {
 
                     <div className='sidebar__points-lbl' >PLAY NOW</div>
 
-                    <Button text='PLAY GOLD' className='btn--sidebar btn--sidebar-gold mrb-20px' />
-                    <Button text='PLAY STANDARD' className='btn--sidebar btn--sidebar-standard' />
+                    <Button onClick={() => this.playGold()} text='PLAY GOLD' className='btn--sidebar btn--sidebar-gold mrb-20px' />
+                    <Button onClick={() => this.playSilver()} text='PLAY STANDARD' className='btn--sidebar btn--sidebar-standard' />
 
                     <div className='divider divider--hor divider--sidebar mrt-25px ' />
 
                     <Friends />
                 </div>
+
+                {!active && <div className='sidebar__switcher-layer' />}
             </div>
         );
+    }
+
+    private switchSiderBar = () => {
+        this.setState({ active: !this.state.active });
+    }
+
+    private playGold = () => {
+        if (this.props.preGame.payload) { return }
+
+        openGamePrefsDialog(new User(), this.props.user, (gameOptions: any) => {
+
+        }, 1)
+
+    }
+
+    private playSilver = () => {
+        if (this.props.preGame.payload) { return }
+
+        openGamePrefsDialog(new User(), this.props.user, (gameOptions: any) => {
+
+        }, 2)
+
     }
 }
 
 
 const mapStateToProps = (state: IReduxStore) => {
     return {
-        user: state.user
+        user: state.user,
+        preGame: state.preGame
     }
 }
 

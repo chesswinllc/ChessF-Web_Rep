@@ -21,7 +21,7 @@ export default class GameAborted extends React.Component<IGameAbortedProps, any>
                     <div className='popup__sec-span'>aborted game</div>
                 </div>
 
-                <div className='popup__btns'>
+                <div className='popup__btns mrt-15px'>
                     <div onClick={this.okay} className='popup__btn popup__btn--accept popup__btn--accept-no-border'>
                         Okay
                     </div>

@@ -6,6 +6,7 @@ import Conversion from 'src/components/home/Conversion';
 import User from 'src/model/User';
 import PreGamePopup from 'src/components/pre-game/PreGamePopup';
 import ConfirmDialog from 'src/components/ConfirmDialog';
+import GamePrefsDialog from 'src/components/GamePrefsDialog';
 
 
 export interface IHomeProps {
@@ -21,6 +22,7 @@ export default class Home extends React.Component<IHomeProps, any> {
             <div className='home'>
                 <PreGamePopup />
                 <ConfirmDialog />
+                <GamePrefsDialog />
                 <Sidebar />
 
                 <Switch>

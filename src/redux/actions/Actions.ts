@@ -19,6 +19,5 @@ export interface PreGameAction extends Action {
 
 export interface GameAction extends Action {
     payload: any,
-    userId?: string,
-    move?: any
+    userId?: string
 }

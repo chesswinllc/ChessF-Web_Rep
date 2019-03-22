@@ -21,6 +21,24 @@ export interface IContentProps {
 
 const Content = class extends React.Component<IContentProps, any> {
 
+
+    public componentDidMount() {
+
+        window.addEventListener('beforeunload', this.beforeUnload)
+    }
+
+    public componentWillUnmount() {
+        window.removeEventListener('beforeprint', this.beforeUnload);
+    }
+
+
+    public beforeUnload = (event: any) => {
+        const confirmationMessage = 'You have game in progress !';
+        event.returnValue = confirmationMessage;
+        return confirmationMessage;
+    }
+
+
     public componentWillReceiveProps(nextProps: IContentProps) {
         if (!nextProps.game.id) {
             this.props.dispatch(push('/'));
@@ -32,13 +50,14 @@ const Content = class extends React.Component<IContentProps, any> {
         }
     }
 
+
     public shouldComponentUpdate(nextProps: IContentProps, nextState: any) {
 
         if (!nextProps.game.id) {
             return true;
         }
 
-        if (nextProps.game.winnerId) {
+        if (nextProps.game.gameState.winnerId) {
             return true;
         }
 
@@ -54,7 +73,7 @@ const Content = class extends React.Component<IContentProps, any> {
         }
 
         return (
-            <div className='content-pv'>
+            <div onTouchMove={this.onTouchMove} className='content-pv'>
                 {/* <div className='flex'>
                     <Button onClick={this.drawGame} text='Draw Game' className='btn--white mrl-25px mrt-10px mrb-10px' />
                     <Button onClick={() => this.abortGame(false)} text='Abandon Game' className='btn--white mrl-a mrr-25px mrt-10px mrb-10px' />
@@ -63,21 +82,24 @@ const Content = class extends React.Component<IContentProps, any> {
                 <div className='content-pv__game'>
                     <GameComponent />
                     <div className='content-pv__right-part'>
-                        <GamePointsCount points={this.props.game.points} />
+                        <GamePointsCount type={this.props.game.type} points={this.props.game.points} />
                         <Chat />
                     </div>
                 </div>
 
 
-                {this.props.game.winnerId &&
+                {this.props.game.gameState.winnerId &&
                     <GameEnded
                         userId={this.props.userId}
-                        winnerId={this.props.game.winnerId}
+                        winnerId={this.props.game.gameState.winnerId}
                         dispatch={this.props.dispatch} />}
             </div>
         );
     }
 
+    private onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+        e.preventDefault();
+    }
 
     // private drawGame = () => {
     //     sendDrawRequest();

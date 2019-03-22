@@ -3,7 +3,8 @@ import * as React from 'react';
 export interface IInputProps {
     name: string,
     className?: string,
-    type?: string
+    type?: string,
+    onEnter?: () => void
 }
 
 export default class Input extends React.Component<IInputProps, any> {
@@ -19,8 +20,15 @@ export default class Input extends React.Component<IInputProps, any> {
         return (
             <div className={'input ' + (className)}>
                 <div className='input__name'>{name}</div>
-                <input ref={ref => this.input = ref} type={type} className='input__input' />
+                <input onKeyPress={this.onKeyPress} ref={ref => this.input = ref} type={type} className='input__input' />
             </div>
         );
     }
+
+    private onKeyPress = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' && this.props.onEnter) {
+            this.props.onEnter();
+        }
+    }
+
 }

@@ -1,22 +1,27 @@
 import * as React from 'react';
 import Move from './Move';
+import GameState from 'src/model/GameState';
 
 export interface IMovesProps {
-    move: any,
+    gameState: GameState,
     fen: string
 }
 
-const movesMock: any[] = []
-export default class Moves extends React.Component<IMovesProps, any> {
 
-    public state = { moves: movesMock }
+export default class Moves extends React.Component<IMovesProps, any> {
+    movesMock: any[] = []
+
+    state = { moves: this.movesMock }
     private moves: HTMLDivElement;
 
     componentWillReceiveProps(nextProps: IMovesProps) {
         if (this.props.fen !== nextProps.fen) {
             const moves = this.state.moves;
+            const gameState = nextProps.gameState;
 
-            moves.push(nextProps.move);
+
+
+            moves.push({ to: gameState.to, from: gameState.from });
 
             this.setState({ moves });
         }
@@ -27,6 +32,7 @@ export default class Moves extends React.Component<IMovesProps, any> {
     }
 
     public render() {
+
         return (
             <div ref={(ref: any) => this.moves = ref} className='game-moves'>
                 <div className='game-moves__w'>

@@ -1,32 +1,38 @@
 import * as React from 'react';
-import User from 'src/model/User';
 import Timer from './Timer';
 import Figure from './Figure';
 import { getCountryName } from 'src/utils/countries';
-import { game } from './MyChessBoard';
 import { _PlayerInfos } from './Game';
+import Game from 'src/model/Game';
+import { game } from './MyChessBoard';
+import User from 'src/model/User';
 
 export interface IPlayerInfoProps {
-    player: User,
-    fen: string,
-    whitePlayerId: string
+    game: Game,
+    isOpponent: boolean,
+    playerId: string
 }
 
 export default class PlayerInfo extends React.Component<IPlayerInfoProps, any> {
 
     public state = { fen: '' }
-
+    private mounted: boolean;
 
     public componentWillMount() {
-        this.setState({ fen: this.props.fen });
+        this.mounted = true;
+        this.setState({ fen: this.props.game.fen });
     }
+
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
 
     public shouldComponentUpdate(nextProps: IPlayerInfoProps, nextState: any) {
 
         if (this.state.fen !== nextState.fen) {
             return true;
         }
-
         return false;
     }
 
@@ -34,19 +40,21 @@ export default class PlayerInfo extends React.Component<IPlayerInfoProps, any> {
         _PlayerInfos[_PlayerInfos.length + 1] = this;
     }
 
-
     public update = (fen: string) => {
+        if (!this.mounted) { return; }
         this.setState({ fen: fen });
     }
 
     public render() {
 
-        const { player, whitePlayerId } = this.props;
+        const { game, isOpponent, playerId } = this.props;
         const { fen } = this.state;
 
-        const whichPlayer = player.id == whitePlayerId ? ' w ' : ' b ';
+        const whichPlayer = playerId == game.whitePlayerId ? ' w ' : ' b ';
 
         const myTurn = fen.indexOf(whichPlayer) !== -1 ? true : false;
+
+        const player: User = isOpponent ? game.opponent : game.player;
 
         return (
             <div className='playerI'>
@@ -64,13 +72,16 @@ export default class PlayerInfo extends React.Component<IPlayerInfoProps, any> {
 
                 </div>
 
-                <Timer myTurn={myTurn} />
+                <Timer
+                    isOpponent={isOpponent}
+                    myTurn={myTurn}
+                    isWhitePlayer={whichPlayer === ' w ' ? true : false} />
             </div>
         );
     }
 
     private renderFigures = () => {
-        const { player, whitePlayerId } = this.props;
+
         if (!game) { return; }
 
         var history = game.history({ verbose: true });
@@ -93,11 +104,8 @@ export default class PlayerInfo extends React.Component<IPlayerInfoProps, any> {
         }, initial);
 
 
-        console.log(captured);
-
-
         //chose opponent color
-        const col = player.id == whitePlayerId ? 'b' : 'w';
+        const col = this.props.playerId == this.props.game.whitePlayerId ? 'b' : 'w';
 
 
         var els = [];
@@ -112,5 +120,4 @@ export default class PlayerInfo extends React.Component<IPlayerInfoProps, any> {
         return els;
     }
 }
-
 

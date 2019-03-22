@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import PlayerInfo from 'src/components/game/PlayerInfo';
-import MyChessBoard from './MyChessBoard';
+import MyChessBoard, { game } from './MyChessBoard';
 import { IReduxStore } from 'src/redux';
 import GameModel from 'src/model/Game';
 import { newGameMove, unsubscribeGame, reSubscribeGame } from 'src/services/GameService';
@@ -11,15 +11,23 @@ import { openConfirmDialog } from '../ConfirmDialog';
 import { abortGame, sendDrawRequest } from 'src/services/GameService';
 
 
+
 export interface IGameProps {
     game: GameModel,
     dispatch: (action: any) => void,
     connectionId: string
 }
 
-export const _PlayerInfos: any[] = [];
+export let _PlayerInfos: any[] = [];
 
 const Game = class extends React.Component<IGameProps, any> {
+
+
+    componentWillMount() {
+        if (game && game.clear()) { }
+        _PlayerInfos = [];
+    }
+
 
     componentWillReceiveProps(nextProps: IGameProps) {
         if (this.props.connectionId !== nextProps.connectionId) {
@@ -46,16 +54,17 @@ const Game = class extends React.Component<IGameProps, any> {
 
         return (
             <div className='content-pv__board'>
-                <Moves fen={game.fen} move={game.move} />
-                <PlayerInfo fen={game.fen} player={game.opponent} whitePlayerId={game.whitePlayerId} />
+                <Moves fen={game.fen} gameState={game.gameState} />
+                <PlayerInfo game={game} isOpponent={true} playerId={game.opponent.id || ''} />
+
                 <MyChessBoard
                     player={game.player}
                     fen={game.fen}
-                    move={game.move}
+                    gameState={game.gameState}
                     whitePlayerId={game.whitePlayerId}
                     newGameMove={this.newGameMove}
-                    winnerId={game.winnerId} />
-                <PlayerInfo fen={game.fen} player={game.player} whitePlayerId={game.whitePlayerId} />
+                    winnerId={game.gameState.winnerId} />
+                <PlayerInfo game={game} isOpponent={false} playerId={game.player.id || ''} />
 
                 <div className='content-pv__game-btns'>
                     <Button onClick={this.drawGame} text='Draw Game' className='btn--white btn--bg-white' />

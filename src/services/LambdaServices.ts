@@ -3,6 +3,7 @@ import { store } from 'src/redux';
 import { saveFriends } from 'src/redux/actions/ActionCreators';
 import Friend from 'src/model/Friend';
 import { GameActionTypes } from 'src/redux/actions/GameActionTypes';
+import Game from 'src/model/Game';
 
 export const getAllFriends = (userId: string, callback: (errorMsg: string, data?: Friend[]) => void) => {
     const lambda = new AWS.Lambda({ region: 'us-east-1', apiVersion: '2015-03-31' });
@@ -102,7 +103,7 @@ export const addFriend = (userId: string, playerId: string, callback: (success: 
 }
 
 
-export const sendGameRequestLambda = (userId: string, opponentId: string, callback: (errorMsg: string, game: string) => void) => {
+export const sendGameRequestLambda = (userId: string, opponentId: string, gameOptions: any, callback: (errorMsg: string, game: Game) => void) => {
     const lambda = new AWS.Lambda({ region: 'us-east-1', apiVersion: '2015-03-31' });
 
     // create JSON object for parameters for invoking Lambda function
@@ -112,25 +113,26 @@ export const sendGameRequestLambda = (userId: string, opponentId: string, callba
         LogType: 'None',
         Payload: JSON.stringify({
             userId,
-            opponentId
+            opponentId,
+            ...gameOptions
         })
     };
 
     lambda.invoke(pullParams, (error: AWS.AWSError, data: AWS.Lambda.InvocationResponse) => {
         if (error) {
-            callback(error.message, '');
+            callback(error.message, new Game());
         } else {
             if (data.Payload) {
                 const result = JSON.parse(data.Payload.toString());
                 if (result.error) {
-                    callback('Something went wrong !', '')
+                    callback('Something went wrong !', new Game())
                     return;
                 }
 
 
                 callback('', result.game)
             } else {
-                callback('error', '')
+                callback('error', new Game())
             }
         }
     })
@@ -326,6 +328,7 @@ export const sendChatMessageLambda = (gameId: string, userId: string, message: s
 export const newGameMoveLambda = (gameId: string, userId: string, fen: string, move: any, callback: (errorMsg: string) => void) => {
     const lambda = new AWS.Lambda({ region: 'us-east-1', apiVersion: '2015-03-31' });
 
+    move.timestampUtc = new Date().valueOf();
 
     // create JSON object for parameters for invoking Lambda function
     const pullParams = {

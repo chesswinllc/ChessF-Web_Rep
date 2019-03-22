@@ -20,7 +20,7 @@ export default class GameEnded extends React.Component<IGameEndedProps, any> {
 
     public render() {
 
-        const txt = this.props.winnerId == this.props.userId ? 'Congratulations you are winner' : 'You are a loser';
+        const txt = this.props.winnerId == this.props.userId ? 'Congratulations you are winner' : 'You lost';
 
 
         if (!this.state.show) {

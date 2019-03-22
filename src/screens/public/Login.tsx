@@ -32,8 +32,8 @@ export default class ILogin extends React.Component<ILoginProps, any> {
                             Log in
                         </div>
 
-                        <Input ref={ref => this.email = ref} name='E-MAIL ADDRESS' className='mrb-20px' />
-                        <Input ref={ref => this.password = ref} name='PASSWORD' className='mrb-30px' type='password' />
+                        <Input onEnter={this.tryLogin} ref={ref => this.email = ref} name='E-MAIL ADDRESS' className='mrb-20px' />
+                        <Input onEnter={this.tryLogin} ref={ref => this.password = ref} name='PASSWORD' className='mrb-30px' type='password' />
 
                         {error ? <span className='form__error'>{error}</span> : ''}
 
@@ -62,9 +62,13 @@ export default class ILogin extends React.Component<ILoginProps, any> {
     }
 
     private tryLogin = () => {
+        if (!this.email.input.value || !this.password.input.value) {
+            return;
+        }
+
         this.setState({ loading: true });
 
-        loginUser(this.email.input.value, this.password.input.value, (error: string) => {
+        loginUser(this.email.input.value.toLowerCase(), this.password.input.value, (error: string) => {
             this.setState({ loading: false, error: error ? error : '' })
         })
     }
