@@ -26,7 +26,7 @@ export default class NewDrawRequest extends React.Component<INewDrawRequestProps
                     <div className='popup__sec-span'>you will not win or lose any point</div>
                 </div>
 
-                <div className='popup__btns'>
+                <div className='popup__btns mrt-15px'>
                     <div onClick={this.accept} className='popup__btn popup__btn--accept'>
                         Accept
                     </div>

@@ -152,6 +152,7 @@ body{
     background-repeat: no-repeat;
     box-sizing: border-box;
     padding-top: 30px;
+    overflow: hidden;
 }
 
 .content-pv__right-part{
@@ -205,6 +206,11 @@ body{
     justify-content: space-between;
     border-radius: 8px;
     font-family: var(--font-roboto);
+}
+
+.points-count-card--silver{
+    background: rgb(198,191,187);
+    background: linear-gradient(180deg, rgba(198,191,187,1) 0%, rgba(227,227,227,1) 100%);
 }
 
 .points-count-card__title{
@@ -452,4 +458,14 @@ body{
     border-radius: 4;
     margin-bottom: 20;
     margin-top: 20;
+}
+
+
+
+@media (max-width:1030px)  {
+    .home{
+        position: relative;
+        left: 70px;
+        width: calc(100% - 70px);
+    }
 }

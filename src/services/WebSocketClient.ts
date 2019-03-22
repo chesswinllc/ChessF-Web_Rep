@@ -57,7 +57,7 @@ export default class WebSocketClient {
             return;
         }
 
-        // console.log(event);
+        console.log(event);
 
         switch (event.type) {
             case UserActionTypes.POINTS_UPDATED:
@@ -82,7 +82,7 @@ export default class WebSocketClient {
                 store.dispatch(newChatMessage(event.payload, event.userId));
                 break;
             case GameActionTypes.GAME_MOVE:
-                store.dispatch(newGameMoveAction(event.payload, event.move));
+                store.dispatch(newGameMoveAction(event.payload));
                 break;
             case GameActionTypes.GAME_ABORT:
                 store.dispatch(gameAborted(event.gameId, event.userId));
@@ -97,7 +97,7 @@ export default class WebSocketClient {
                 store.dispatch(drawRequestAction(event.gameId, event.userId, event.playerId || '', GameActionTypes.DRAW_REQUEST_ACCEPT));
                 break;
             case GameActionTypes.GAME_ENDED:
-                store.dispatch(gameEnded(event.payload, event.move, event.winnerId, event.userId))
+                store.dispatch(gameEnded(event.payload, event.userId))
                 break;
             default:
                 break;

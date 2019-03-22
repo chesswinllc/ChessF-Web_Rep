@@ -4,6 +4,7 @@ import { UserAction, FriendAction, PreGameAction, GameAction } from './Actions';
 import { UserActionTypes, FriendActionTypes } from './ActionTypes';
 import { GameActionTypes } from './GameActionTypes';
 import PreGame from 'src/model/PreGame';
+import GameState from 'src/model/GameState';
 
 
 export const saveUser = (user: User) => {
@@ -135,22 +136,29 @@ export const newChatMessage = (message: string, userId: string) => {
 }
 
 
-export const newGameMoveAction = (fen: string, move: any) => {
+export const newGameMoveAction = (gameState: GameState) => {
     const MoveGameAction: GameAction = {
         type: GameActionTypes.GAME_MOVE,
-        payload: fen,
-        move
+        payload: gameState
+    }
+
+    return MoveGameAction;
+}
+
+export const newGameMoveActionFenOnly = (fen: string) => {
+    const MoveGameAction: GameAction = {
+        type: GameActionTypes.GAME_MOVE_FEN_ONLY,
+        payload: fen
     }
 
     return MoveGameAction;
 }
 
 
-export const gameEnded = (fen: string, move: any, winnerId: string, userId?: string) => {
+export const gameEnded = (gameState: GameState, userId?: string) => {
     const GameEndedAction: GameAction = {
         type: GameActionTypes.GAME_ENDED,
-        payload: { fen, winnerId },
-        move,
+        payload: gameState,
         userId
     }
 

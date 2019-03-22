@@ -11,7 +11,7 @@ export default class DrawRequestAccepted extends React.Component<IDrawRequestAcc
 
 
     componentWillMount() {
-        this.props.dispatch(push('/')); 
+        this.props.dispatch(push('/'));
     }
 
 
@@ -23,7 +23,7 @@ export default class DrawRequestAccepted extends React.Component<IDrawRequestAcc
                     <span className='popup__name'>Game Drawed</span>
                 </div>
 
-                <div className='popup__btns'>
+                <div className='popup__btns mrt-15px'>
                     <div onClick={this.okay} className='popup__btn popup__btn--accept popup__btn--accept-no-border'>
                         Okay
                     </div>

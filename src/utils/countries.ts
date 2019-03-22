@@ -246,7 +246,8 @@ var isoCountries = {
     "western sahara": "EH",
     yemen: "YE",
     zambia: "ZM",
-    zimbabwe: "ZW"
+    zimbabwe: "ZW",
+    kosovo: 'xk'
 };
 
 

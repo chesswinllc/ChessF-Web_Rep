@@ -4,7 +4,8 @@ import User from 'src/model/User';
 import { acceptGameRequest, declineGameRequest } from 'src/services/GameService';
 import { Action } from 'redux';
 import Loader from '../common/Loader';
-import { closePreGamePopup } from 'src/redux/actions/ActionCreators';
+import { getTimeByType } from 'src/utils/timeutils';
+// import { closePreGamePopup } from 'src/redux/actions/ActionCreators';
 
 export interface INewGameRequestProps {
     payload: Game,
@@ -18,9 +19,9 @@ export default class NewGameRequest extends React.Component<INewGameRequestProps
     private timeout: any;
 
     componentDidMount() {
-        this.timeout = setTimeout(() => {
-            this.props.dispatch(closePreGamePopup());
-        }, 30000);
+        // this.timeout = setTimeout(() => {
+        // this.props.dispatch(closePreGamePopup());
+        // }, 30000);
     }
 
     componentWillUnmount() {
@@ -29,7 +30,7 @@ export default class NewGameRequest extends React.Component<INewGameRequestProps
 
     public render() {
 
-        const { user } = this.props;
+        const { user, payload } = this.props;
 
         return (
             <div className='popup'>
@@ -37,6 +38,51 @@ export default class NewGameRequest extends React.Component<INewGameRequestProps
                     <img className='avatar avatar--2xsmall' src={user.profile_picture} />
                     <span className='popup__name'>{user.name}</span>
                     <div className='popup__sec-span'>wants to play</div>
+                </div>
+
+
+                <div className='popup__section'>
+                    <span className='popup__section-title'>PlAY WITH</span>
+
+                    <div className='popup__row'>
+                        <span className={'popup__section-title2 ' + (payload.type == 1 ? 'color-gold' : '')}>
+                            {payload.type == 1 ? 'Gold Points' : 'Standard'}
+                        </span>
+
+                        <span className={'popup__section-value ' + (payload.type == 1 ? 'color-gold' : '')}>
+                            <img src={require('../../assets/icons/coins-' + (payload.type == 1 ? 'gold' : 'silver') + '.svg')} />
+                            <span>{payload.points}</span>
+                        </span>
+                    </div>
+                </div>
+
+
+                <div className='popup__section'>
+                    <span className='popup__section-title'>MOVE TIME</span>
+
+                    <div className='popup__row'>
+                        <span className='popup__section-title2'>Time chosen</span>
+
+                        <span className='popup__section-value'>
+                            <img src={require('../../assets/icons/timer.svg')} />
+                            <span>{getTimeByType(payload.gameTimeType)}</span>
+                        </span>
+                    </div>
+                </div>
+
+
+                <div className='popup__section'>
+                    <span className='popup__section-title'>FAIR PLAY</span>
+
+                    <div className='popup__row'>
+                        <span className={'popup__section-title2'}>
+                            {payload.fairPlayEnabled ? 'Enabled' : 'Disabled'}
+                        </span>
+
+                        <span className={'popup__section-value ' + (payload.fairPlayEnabled ? 'color-green' : '')}>
+                            <span>{payload.fairPlayEnabled ? 'ON' : 'OFF'}</span>
+                        </span>
+                    </div>
                 </div>
 
 

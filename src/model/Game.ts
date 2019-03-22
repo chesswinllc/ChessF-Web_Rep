@@ -1,20 +1,24 @@
 import User from './User';
 import ChatMessage from './ChatMessage';
+import GameState from './GameState';
 
 
 export default class Game {
     id: string;
+    startDate: number;
+    endDate: number;
     requesterId: string;
-    timestamp: number;
     blackPlayerId: string;
     whitePlayerId: string;
     points: number;
     type: number;
+    status: number;
+    gameTimeType: number;
+    fairPlayEnabled: boolean;
     fen: string;
-    move: string;
     player: User;
     opponent: User;
-    chatMessages: ChatMessage[]
-    abortedUserId: string
-    winnerId: string
+    chatMessages: ChatMessage[];
+    abortedUserId: string;
+    gameState: GameState;
 }

@@ -23,7 +23,7 @@ export default class GameRequestDeclined extends React.Component<IGameRequestDec
                     <div className='popup__sec-span'>not available</div>
                 </div>
 
-                <div className='popup__btns'>
+                <div className='popup__btns mrt-15px'>
                     <div onClick={this.okay} className='popup__btn popup__btn--accept popup__btn--accept-no-border'>
                         Okay
                     </div>

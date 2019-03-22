@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Button from '../common/Button';
 import Friend from 'src/model/Friend';
-import { sendGameRequest } from 'src/services/GameService';
 import User from 'src/model/User';
 import PreGame from 'src/model/PreGame';
 import { getCountryName } from 'src/utils/countries';
+import { openGamePrefsDialog } from '../GamePrefsDialog';
 
 export interface IFriendItemProps {
     friend: Friend,
@@ -20,16 +20,15 @@ export default class FriendItem extends React.Component<IFriendItemProps, any> {
 
 
         const { friend, preGame } = this.props;
-        const { hovered } = this.state;
 
 
-        const showChallengeBtn = hovered && !preGame.payload;
+        const showChallengeBtn = !preGame.payload;
 
 
         return (
             <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} className='friend'>
                 <img className='avatar avatar--small avatar--borderless mrr-15px' src={friend.profile_picture} />
-                <span className='friend__status friend__status--on' />
+                {(friend.status > 0) && <span className='friend__status friend__status--on' />}
 
                 <div>
                     <div className='friend__name'>{friend.name}</div>
@@ -44,16 +43,17 @@ export default class FriendItem extends React.Component<IFriendItemProps, any> {
 
 
     private onMouseEnter = () => {
-        this.setState({ hovered: true })
+        // this.setState({ hovered: true })
     }
 
     private onMouseLeave = () => {
-        this.setState({ hovered: false })
+        // this.setState({ hovered: false })
     }
 
     private challenge = () => {
-        sendGameRequest(this.props.user || '', this.props.friend || '', () => {
+        openGamePrefsDialog(this.props.friend, this.props.user, (gameOptions: any) => {
 
         })
+
     }
 }

@@ -3,6 +3,8 @@ import Chessboard from 'chessboardjsx';
 import Chess from 'chess.js';
 import User from 'src/model/User';
 import { _PlayerInfos } from './Game';
+import { _MyTimer } from './Timer';
+import GameState from 'src/model/GameState';
 
 
 export interface IMyChessBoardProps {
@@ -11,7 +13,7 @@ export interface IMyChessBoardProps {
     newGameMove: (fen: string, move: any) => void;
     whitePlayerId: string,
     winnerId: string,
-    move: any
+    gameState: GameState
 }
 
 export let game: any;
@@ -28,8 +30,9 @@ export default class MyChessBoard extends React.Component<IMyChessBoardProps, an
 
     componentWillReceiveProps(nextProps: IMyChessBoardProps) {
         if (this.state.fen !== nextProps.fen) {
+            const move = { to: nextProps.gameState.to, from: nextProps.gameState.from, promotion: nextProps.gameState.promotion }
 
-            game.move(nextProps.move, { sloppy: true });
+            game.move(move, { sloppy: true });
             this.setState({ fen: game.fen() });
 
         }
@@ -87,8 +90,10 @@ export default class MyChessBoard extends React.Component<IMyChessBoardProps, an
 
         if (move === null) return;
 
+        const timeLeftInSec = (_MyTimer.state.time.minutes * 60) + _MyTimer.state.time.seconds;
+
         // this.setState({ fen: this.game.fen() })
-        this.props.newGameMove(game.fen(), { from: obj.sourceSquare, to: obj.targetSquare, promotion: "q" });
+        this.props.newGameMove(game.fen(), { from: obj.sourceSquare, to: obj.targetSquare, promotion: "q", timeLeftInSec });
     }
 
 }

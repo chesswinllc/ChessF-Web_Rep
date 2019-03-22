@@ -3,18 +3,22 @@ import User from 'src/model/User';
 import { GameActionTypes } from 'src/redux/actions/GameActionTypes';
 import { sendGameRequestLambda, declineGameRequestLambda, acceptGameRequestLambda, subscribeGameLambda, sendChatMessageLambda, newGameMoveLambda, abortGameLambda, sendDrawRequestLambda, unsubscribeGameLambda } from './LambdaServices';
 import { store } from 'src/redux';
-import { gameRequestAccepted, gameSubscribed, newGameMoveAction, gameAborted, closePreGamePopup } from 'src/redux/actions/ActionCreators';
+import { gameRequestAccepted, gameSubscribed, gameAborted, closePreGamePopup, newGameMoveAction } from 'src/redux/actions/ActionCreators';
 import PreGame from 'src/model/PreGame';
 import { push } from 'connected-react-router';
+import GameState from 'src/model/GameState';
+import Game from 'src/model/Game';
 
 export const $GameObs = new Subject();
 
-export const sendGameRequest = (currentUser: User, opponent: User, callback: () => void) => {
+export const sendGameRequest = (currentUser: User, opponent: User, gameOptions: any, callback: () => void) => {
 
-    sendGameRequestLambda(currentUser.id || '', opponent.id || '', (error: string, game: string) => {
+
+    sendGameRequestLambda(currentUser.id || '', opponent.id || '', gameOptions, (error: string, game: Game) => {
         callback();
         if (!error) {
-            store.dispatch({ type: GameActionTypes.GAME_REQUEST_SEND, payload: game, user: opponent });
+
+            store.dispatch({ type: GameActionTypes.GAME_REQUEST_SEND, payload: game, user: game.opponent ? game.opponent : opponent });
             // $GameObs.next({ type: GameActionTypes.GAME_REQUEST_SEND, payload: game });
         } else {
             store.dispatch(closePreGamePopup());
@@ -96,7 +100,15 @@ export const sendChatMessage = (gameId: string, userId: string, message: string)
 
 
 export const newGameMove = (gameId: string, userId: string, fen: string, move: any) => {
-    store.dispatch(newGameMoveAction(fen, move));
+    const gameState: GameState = store.getState().game.gameState;
+
+
+    gameState.fen = fen;
+    gameState.from = move.from;
+    gameState.to = move.to;
+    gameState.promotion = move.promotion;
+
+    store.dispatch(newGameMoveAction(gameState));
     newGameMoveLambda(gameId, userId, fen, move, (error: string) => {
         if (error) {
 

@@ -15,7 +15,7 @@ export default class DrawRequestDeclined extends React.Component<IDrawRequestDec
                     <span className='popup__name'>Draw request declined by opponent</span>
                 </div>
 
-                <div className='popup__btns'>
+                <div className='popup__btns mrt-15px'>
                     <div onClick={this.okay} className='popup__btn popup__btn--accept popup__btn--accept-no-border'>
                         Okay
                     </div>
