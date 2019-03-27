@@ -111,12 +111,19 @@
     width: 50px;
     object-fit: cover;
     object-position: center;
+    margin-right: 25px;
 }
 
 .bank-card__inputs{
     display: flex;
+    margin-bottom: 10px;
 }
 
+.bank-card__values{
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 33px;
+}
 
 .bank-card__col2{
     width: 100%;
@@ -127,6 +134,10 @@
 
 .card-input{
     position: relative;
+}
+
+.card-input--first{
+    margin-right: 10px;
 }
 
 .card-input__name{
@@ -304,4 +315,109 @@
     .conversion{
         width: 100%;
     }   
+}
+
+
+@media (max-width:770px){
+
+    .bank-card{
+        width: 100%;
+        max-width: 100%;
+        min-width: auto;
+        flex-direction: column;
+    }
+
+    .bank-card__title{
+        white-space: pre-line;
+    }
+
+    .bank-card__icon{
+        margin-right: 0px;
+        margin-bottom: 10px;
+    }
+
+    .bank-card__inputs{
+        flex-direction: column;
+    }
+
+    .bank-card__values{
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    
+    .card-input--first{
+        margin-right: 0px;
+        margin-bottom: 10px;
+    }
+
+    .divider--bank-card{
+        display: none;
+    }
+}
+
+
+
+@media (max-width: 480px) {
+
+    .conversion{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+
+    .gold-banner{
+        padding: 10px 10px;
+        font-size: 1.3rem;
+    }
+
+    .gold-banner__points{
+        padding: 1px 10px;
+        font-size: 1rem;
+        margin-left: 10px;
+    }
+
+    .conversion__title{
+        font-size: 1.2rem;
+    }
+
+    .shop-card{
+        width: 100%;
+        max-width: 100%;
+        min-width: auto;
+        height: auto;
+        flex-direction: column;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+    }
+
+    .shop-card__col1{
+        width: calc(100% + 10px);
+        height: auto;
+        margin-left: -10px;
+        margin-top: -10px;
+        margin-bottom: 10px;
+        border-right: none;
+        border-bottom: 2px solid rgb(255,214,73);
+        padding: 10px 0px;
+    }
+
+    
+    .gift-card{
+        flex-direction: column;
+    }
+
+    .gift-card__img{
+        margin-right: 0;
+    }
+    
+    .gift-card__col2{
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .gift-card__p{
+        margin-right: 0;
+    }
+
+
 }
