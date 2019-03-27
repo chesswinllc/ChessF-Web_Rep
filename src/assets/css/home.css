@@ -469,3 +469,10 @@ body{
         width: calc(100% - 70px);
     }
 }
+
+@media (max-width: 480px) {
+    .home{
+        left: 0;
+        width: 100%;
+    }
+}

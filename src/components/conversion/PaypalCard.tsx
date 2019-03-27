@@ -14,7 +14,7 @@ export default class PaypalCard extends React.Component<IPaypalCardProps, any> {
         return (
             <div className={'bank-card ' + (className || '')}>
 
-                <img className='bank-card__icon mrr-25px' src={require('../../assets/icons/paypal.svg')} />
+                <img className='bank-card__icon ' src={require('../../assets/icons/paypal.svg')} />
 
                 <div className='bank-card__col2'>
                     <h5 className='bank-card__title'>Convert your Gold Coins into real cash!</h5>
@@ -24,7 +24,7 @@ export default class PaypalCard extends React.Component<IPaypalCardProps, any> {
 
                 <div className='divider divider--bank-card mrl-20px' />
 
-                <div className='mrl-25px mrr-25px mrt-30px'>
+                <div className='bank-card__values'>
                     <CardInput value='100' dropDown={true} items={['100', '200', '300', '400']} inputClassName='color-gold' />
                     <CardInput readOnly={true} prefix='$' value='100' className='mrt-10px' inputClassName='color-green' />
                 </div>

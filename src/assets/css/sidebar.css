@@ -217,3 +217,10 @@
         background-color: rgb(37,37,41);
     }
 }
+
+
+@media (max-width: 480px) {
+    .sidebar{
+        display: none;
+    }
+}
